@@ -1,0 +1,17 @@
+{
+  "name": "Christux Utils",
+  "keywords": "blink led, button",
+  "description": "Some utils for Arduino",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Christux/ChristuxUtils.git"
+  },
+  "version": "1.0.0",
+  "authors": {
+    "name": "Christophe Rubeck",
+    "url": "https://github.com/Christux"
+  },
+  "exclude": [],
+  "frameworks": "arduino",
+  "platforms": "*"
+}

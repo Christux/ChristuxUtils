@@ -1,3 +1,4 @@
+ChristuxUtils	KEYWORD1
 BlinkLed	KEYWORD1
 Button	KEYWORD1
 setup	KEYWORD2

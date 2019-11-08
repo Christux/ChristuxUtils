@@ -28,7 +28,9 @@ class Button
 {  
   protected:
     const unsigned int _buttonPin;
-    const buttonActionFunction _callbackFunction;
+    buttonActionFunction _callbackOnPush;
+    buttonActionFunction _callbackOnRelease;
+    buttonActionFunction _callbackOnChange;
     int _buttonState;
     int _lastButtonState;
     unsigned long _pushTime;
@@ -36,7 +38,11 @@ class Button
     
   public:
     Button(unsigned int ledPin, buttonActionFunction callbackFunction);
+    Button(unsigned int ledPin);
     void setup() const;
+    void setOnPush(buttonActionFunction callbackOnPush);
+    void setOnRelease(buttonActionFunction callbackOnRelease);
+    void setOnChange(buttonActionFunction callbackOnChange);
     void handle();
 };
 

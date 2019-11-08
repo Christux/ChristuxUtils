@@ -17,14 +17,19 @@
 #include "Button.h"
 
 /*
- * Constructor
+ * Constructors
  */
-Button::Button(unsigned int buttonPin, buttonActionFunction callbackFunction) :
+Button::Button(unsigned int buttonPin, buttonActionFunction callbackOnPush):
   _buttonPin(buttonPin),
-  _callbackFunction(callbackFunction),
+  _callbackOnPush(callbackOnPush),
+  _callbackOnRelease(nullptr),
+  _callbackOnChange(nullptr),
   _buttonState(HIGH),
   _lastButtonState(HIGH),
   _pushTime(0)
+{}
+
+Button::Button(unsigned int buttonPin): Button(buttonPin, nullptr)
 {}
 
 /*
@@ -34,20 +39,53 @@ void Button::setup() const {
   pinMode(_buttonPin, INPUT_PULLUP);
 }
 
+void Button::setOnPush(buttonActionFunction callbackOnPush) {
+  _callbackOnPush = callbackOnPush;
+}
+
+void Button::setOnRelease(buttonActionFunction callbackOnRelease) {
+  _callbackOnRelease = callbackOnRelease;
+}
+
+void Button::setOnChange(buttonActionFunction callbackOnChange) {
+  _callbackOnChange = callbackOnChange;
+}
+
 /*
  * Listen to button push and call _callbackFunction
  */
 void Button::handle() {
 
   unsigned long currTime = millis();
-  _buttonState = digitalRead(_buttonPin);
+  int state = digitalRead(_buttonPin);
   
-  if (_buttonState == LOW) {
-    if (_lastButtonState == HIGH && currTime > _pushTime) {
-      _callbackFunction();
-    }
-    _pushTime = currTime + _pushDelay;
-  }
-  _lastButtonState = _buttonState;
-}
+  if(currTime > _pushTime) {
 
+    if (state != _lastButtonState) {    
+      _pushTime = currTime + _pushDelay;
+      _lastButtonState = state;
+    }
+    else {
+      
+      if(state != _buttonState) {
+        _buttonState = state;
+
+        if(_callbackOnChange != nullptr) {
+            _callbackOnChange();
+          }
+
+        if(_buttonState == LOW) {
+          if(_callbackOnPush != nullptr) {
+            _callbackOnPush();
+          }
+        }
+
+        if(_buttonState == HIGH) {
+          if(_callbackOnRelease != nullptr) {
+            _callbackOnRelease();
+          }    
+        }
+      }
+    }
+  }
+}

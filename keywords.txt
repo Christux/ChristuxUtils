@@ -3,4 +3,6 @@ BlinkLed	KEYWORD1
 Button	KEYWORD1
 setup	KEYWORD2
 handle	KEYWORD2
-
+setOnPush	KEYWORD2
+setOnRelease	KEYWORD2
+setOnChange	KEYWORD2

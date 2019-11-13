@@ -2,6 +2,8 @@ ChristuxUtils	KEYWORD1
 BlinkLed	KEYWORD1
 Button	KEYWORD1
 setup	KEYWORD2
+stop	KEYWORD2
+resume	KEYWORD2
 handle	KEYWORD2
 setOnPush	KEYWORD2
 setOnRelease	KEYWORD2

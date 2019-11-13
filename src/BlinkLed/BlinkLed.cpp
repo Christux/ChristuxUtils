@@ -23,7 +23,8 @@ BlinkLed::BlinkLed(unsigned int ledPin, unsigned int delay) :
   _ledPin(ledPin),
   _delay(delay),
   _nextFlicker(0),
-  _state(false)
+  _state(false),
+  _isBlinking(true)
 {}
 
 /*
@@ -31,7 +32,7 @@ BlinkLed::BlinkLed(unsigned int ledPin, unsigned int delay) :
  */
 void BlinkLed::setup() const {
   pinMode(_ledPin, OUTPUT);
-  digitalWrite(_ledPin,_state);
+  digitalWrite(_ledPin, _state);
 }
 
 /*
@@ -39,10 +40,27 @@ void BlinkLed::setup() const {
  */
 void BlinkLed::handle() {
 
-  unsigned long curr_time = millis();
+  if(_isBlinking) {
+    unsigned long curr_time = millis();
 
-  if (curr_time >= _nextFlicker) {
-    _nextFlicker = curr_time + _delay;
-    digitalWrite(_ledPin, _state=!_state);
+    if (curr_time >= _nextFlicker) {
+      _nextFlicker = curr_time + _delay;
+      digitalWrite(_ledPin, _state=!_state);
+    }
   }
+}
+
+void BlinkLed::resume() {
+  _stopAndResume(true);
+  _nextFlicker = millis() + _delay;
+}
+
+void BlinkLed::stop() {
+  _stopAndResume(false);
+}
+
+void BlinkLed::_stopAndResume(bool state) {
+  _isBlinking = state;
+  _state = state;
+  digitalWrite(_ledPin, _state);
 }

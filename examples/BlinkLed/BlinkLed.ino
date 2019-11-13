@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2017 Christophe Rubeck.
+ * Copyright (c) 2019 Christophe Rubeck.
  * 
  * This program is free software: you can redistribute it and/or modify  
  * it under the terms of the GNU Lesser General Public License as   
@@ -15,6 +15,10 @@
 */
 
 #include <ChristuxUtils.h>
+
+unsigned long startTime = millis();
+bool stop = false;
+bool resume = false;
 
 /* 
  * Defines blinking led
@@ -37,5 +41,16 @@ void loop() {
    * Blinks built-in led
    */
   bl.handle();
-}
 
+  // Stop once after 5s
+  if(!stop && millis() > startTime + 5000) {
+    stop = true;
+    bl.stop();
+  }
+
+  // Resume once after 10s
+  if(!resume && millis() > startTime + 10000) {
+    resume = true;
+    bl.resume();
+  }
+}

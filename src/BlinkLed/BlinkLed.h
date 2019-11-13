@@ -26,11 +26,15 @@ class BlinkLed
     const unsigned int _delay;
     unsigned long _nextFlicker;
     bool _state;
+    bool _isBlinking;
+    void _stopAndResume(bool state);
 
   public:
     BlinkLed(unsigned int ledPin, unsigned int delay);
     void setup() const;
     void handle();
+    void resume();
+    void stop();
 };
 
 #endif
